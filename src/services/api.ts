@@ -74,12 +74,12 @@ class ApiClient {
   }
 
   // Получить текущего пользователя
-  async getCurrentUser() {
-    const response = await fetch(`${this.baseURL}/auth/me`, {
-      headers: this.getHeaders(),
-    })
-    return this.handleResponse(response)
-  }
+  // async getCurrentUser() {
+  //   const response = await fetch(`${this.baseURL}/auth/me`, {
+  //     headers: this.getHeaders(),
+  //   })
+  //   return this.handleResponse(response)
+  // }
 
   // Товары
   async getProducts(): Promise<Product[]> {

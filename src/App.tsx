@@ -8,6 +8,7 @@ import Products from './pages/Products'
 import Incoming from './pages/Incoming'
 import Outgoing from './pages/Outgoing'
 import Profile from './pages/Profile'
+import { useEffect, useState } from 'react'
 
 function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -79,6 +80,24 @@ function AppRoutes() {
 }
 
 export default function App() {
+  const [theme, setTheme] = useState<'light' | 'dark'>(
+    window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
+  )
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+
+    const handleChange = (e: MediaQueryListEvent) => {
+      setTheme(e.matches ? 'dark' : 'light')
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+
+    document.documentElement.setAttribute('data-theme', theme)
+
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [theme])
+
   return (
     <BrowserRouter>
       <AppRoutes />

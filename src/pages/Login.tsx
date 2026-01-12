@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useAuth } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 import './Login.css'
 
 export default function Login() {
@@ -10,6 +11,7 @@ export default function Login() {
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
   const { login, register } = useAuth()
+  const navigate = useNavigate()
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -19,8 +21,10 @@ export default function Login() {
     try {
       if (isLogin) {
         await login(phoneNumber, password)
+        navigate('/')
       } else {
         await register(phoneNumber, password, name || undefined)
+        navigate('/')
       }
     } catch (err: unknown) {
       setError(err instanceof Error ? err.message : 'Ошибка авторизации')

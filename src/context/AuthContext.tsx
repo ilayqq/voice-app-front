@@ -23,33 +23,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
-  // Проверка авторизации при загрузке
   useEffect(() => {
     const checkAuth = async () => {
       const token = localStorage.getItem('auth_token')
       if (token) {
-        try {
-          const userData = await apiClient.getCurrentUser()
-          setUser(userData.user || userData)
-        } catch (error) {
-          console.error('Auth check failed:', error)
-          localStorage.removeItem('auth_token')
-        }
+        // try {
+        //   const userData = await apiClient.getCurrentUser()
+        //   setUser(userData.user || userData)
+        // } catch (error) {
+        //   console.error('Auth check failed:', error)
+        //   localStorage.removeItem('auth_token')
+        // }
       }
       setIsLoading(false)
     }
     
-    checkAuth()
+    checkAuth().then(() => setIsLoading(false))
   }, [])
 
   const login = async (phoneNumber: string, password: string) => {
-    try {
-      const response: AuthResponse = await apiClient.login({ phoneNumber, password })
-      localStorage.setItem('auth_token', response.token)
-      setUser(response.user)
-    } catch (error) {
-      throw error
-    }
+    const response: AuthResponse = await apiClient.login({ phoneNumber, password })
+    localStorage.setItem('auth_token', response.token)
+    setUser(response.user)
   }
 
   const register = async (email: string, password: string, name?: string) => {
