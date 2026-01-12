@@ -1,0 +1,186 @@
+.dashboard {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+}
+
+.stat-card {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+}
+
+.stat-value {
+  font-size: 24px;
+  font-weight: bold;
+  color: #007aff;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 14px;
+  color: #666;
+}
+
+.quick-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.action-button {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  text-decoration: none;
+  color: #000;
+  text-align: center;
+  font-size: 16px;
+  border: 2px solid #e5e5e5;
+  transition: all 0.2s;
+}
+
+.action-button.incoming {
+  border-color: #34c759;
+  color: #34c759;
+}
+
+.action-button.outgoing {
+  border-color: #ff3b30;
+  color: #ff3b30;
+}
+
+.action-button:active {
+  transform: scale(0.98);
+  opacity: 0.8;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.section-title {
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
+}
+
+.inventory-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.inventory-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.item-info {
+  flex: 1;
+}
+
+.item-name {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.item-sku {
+  font-size: 14px;
+  color: #666;
+}
+
+.quantity-badge {
+  background: #e5f4ff;
+  color: #007aff;
+  padding: 6px 12px;
+  border-radius: 8px;
+  font-weight: 500;
+}
+
+.quantity-badge.low {
+  background: #ffe5e5;
+  color: #ff3b30;
+}
+
+.view-all {
+  text-align: center;
+  color: #007aff;
+  text-decoration: none;
+  padding: 12px;
+  font-weight: 500;
+}
+
+.operations-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.operation-item {
+  background: #fff;
+  border-radius: 12px;
+  padding: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.operation-icon {
+  font-size: 24px;
+}
+
+.operation-info {
+  flex: 1;
+}
+
+.operation-product {
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+
+.operation-meta {
+  font-size: 14px;
+  color: #666;
+}
+
+.operation-quantity {
+  font-weight: bold;
+  font-size: 18px;
+}
+
+.operation-quantity.incoming {
+  color: #34c759;
+}
+
+.operation-quantity.outgoing {
+  color: #ff3b30;
+}
+
+.empty-state {
+  background: #fff;
+  border-radius: 12px;
+  padding: 32px;
+  text-align: center;
+  color: #666;
+}
+
+.empty-state .primary {
+  margin-top: 16px;
+}
+
