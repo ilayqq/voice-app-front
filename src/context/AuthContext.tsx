@@ -27,31 +27,33 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkAuth = async () => {
       const token = localStorage.getItem('auth_token')
       if (token) {
-        // try {
-        //   const userData = await apiClient.getCurrentUser()
-        //   setUser(userData.user || userData)
-        // } catch (error) {
-        //   console.error('Auth check failed:', error)
-        //   localStorage.removeItem('auth_token')
-        // }
+        // Если токен есть, считаем пользователя авторизованным
+        setUser({ id: 'temp', email: 'temp' })
       }
       setIsLoading(false)
     }
-    
-    checkAuth().then(() => setIsLoading(false))
+
+    checkAuth()
   }, [])
 
   const login = async (phoneNumber: string, password: string) => {
     const response: AuthResponse = await apiClient.login({ phoneNumber, password })
+    console.log('Login response:', response)
     localStorage.setItem('auth_token', response.token)
-    setUser(response.user)
+    console.log('Token saved to localStorage')
+    // Если user не приходит с сервера, создаем временного
+    const user = response.user || { id: phoneNumber, email: phoneNumber, name: phoneNumber }
+    setUser(user)
+    console.log('User set:', user)
   }
 
   const register = async (email: string, password: string, name?: string) => {
     try {
       const response: AuthResponse = await apiClient.register({ email, password, name })
       localStorage.setItem('auth_token', response.token)
-      setUser(response.user)
+      // Если user не приходит с сервера, создаем временного
+      const user = response.user || { id: email, email: email, name: name }
+      setUser(user)
     } catch (error) {
       throw error
     }

@@ -1,14 +1,9 @@
 import './App.css'
 import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom'
 import { useAuth } from './context/AuthContext'
-import ProtectedRoute from './components/ProtectedRoute'
 import Login from './pages/Login'
-import Dashboard from './pages/Dashboard'
-import Products from './pages/Products'
-import Incoming from './pages/Incoming'
-import Outgoing from './pages/Outgoing'
-import Profile from './pages/Profile'
 import { useEffect, useState } from 'react'
+import './i18n'
 
 function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -37,41 +32,19 @@ function AppRoutes() {
       <Route
         path="/"
         element={
-          <ProtectedRoute>
-            <Dashboard />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/products"
-        element={
-          <ProtectedRoute>
-            <Products />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/incoming"
-        element={
-          <ProtectedRoute>
-            <Incoming />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/outgoing"
-        element={
-          <ProtectedRoute>
-            <Outgoing />
-          </ProtectedRoute>
-        }
-      />
-      <Route
-        path="/profile"
-        element={
-          <ProtectedRoute>
-            <Profile />
-          </ProtectedRoute>
+          isAuthenticated ? (
+            <div style={{ padding: '20px' }}>
+              <h1>Dashboard (временная заглушка)</h1>
+              <button onClick={() => {
+                localStorage.removeItem('auth_token')
+                window.location.reload()
+              }}>
+                Выйти
+              </button>
+            </div>
+          ) : (
+            <Navigate to="/login" replace />
+          )
         }
       />
       <Route path="*" element={<Navigate to="/" replace />} />

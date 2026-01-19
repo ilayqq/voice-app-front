@@ -1,3 +1,13 @@
+[data-theme="light"] {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+}
+
+[data-theme="dark"] {
+  --bg-color: #000000;
+  --text-color: #ffffff;
+}
+
 .login-container {
   min-height: 100dvh;
   display: flex;

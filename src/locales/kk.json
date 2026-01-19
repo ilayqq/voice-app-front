@@ -1,0 +1,15 @@
+{
+  "login": {
+    "title": "Кіру",
+    "register_title": "Тіркелу",
+    "name_placeholder": "Аты (міндетті емес)",
+    "phone_placeholder": "Телефон нөмірі",
+    "password_placeholder": "Құпия сөз",
+    "login_button": "Кіру",
+    "register_button": "Тіркелу",
+    "loading": "Жүктелуде...",
+    "no_account": "Аккаунт жоқ па? Тіркелу",
+    "have_account": "Аккаунт бар ма? Кіру",
+    "error": "Авторизация қатесі"
+  }
+}

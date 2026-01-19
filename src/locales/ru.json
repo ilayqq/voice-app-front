@@ -1,0 +1,15 @@
+{
+  "login": {
+    "title": "Вход",
+    "register_title": "Регистрация",
+    "name_placeholder": "Имя (необязательно)",
+    "phone_placeholder": "Номер телефона",
+    "password_placeholder": "Пароль",
+    "login_button": "Войти",
+    "register_button": "Зарегистрироваться",
+    "loading": "Загрузка...",
+    "no_account": "Нет аккаунта? Зарегистрироваться",
+    "have_account": "Уже есть аккаунт? Войти",
+    "error": "Ошибка авторизации"
+  }
+}

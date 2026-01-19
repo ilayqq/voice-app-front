@@ -1,0 +1,15 @@
+{
+  "login": {
+    "title": "Login",
+    "register_title": "Register",
+    "name_placeholder": "Name (optional)",
+    "phone_placeholder": "Phone number",
+    "password_placeholder": "Password",
+    "login_button": "Login",
+    "register_button": "Register",
+    "loading": "Loading...",
+    "no_account": "No account? Register",
+    "have_account": "Already have an account? Login",
+    "error": "Authorization error"
+  }
+}

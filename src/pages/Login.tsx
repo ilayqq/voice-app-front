@@ -1,17 +1,26 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import LanguageSwitcher from '../components/LanguageSwitcher'
 import './Login.css'
 
 export default function Login() {
+  const { t } = useTranslation()
   const [isLogin, setIsLogin] = useState(true)
   const [phoneNumber, setPhoneNumber] = useState('')
   const [password, setPassword] = useState('')
   const [name, setName] = useState('')
   const [error, setError] = useState('')
   const [loading, setLoading] = useState(false)
-  const { login, register } = useAuth()
+  const { login, register, isAuthenticated } = useAuth()
   const navigate = useNavigate()
+
+  useEffect(() => {
+    if (isAuthenticated) {
+      navigate('/', { replace: true })
+    }
+  }, [isAuthenticated, navigate])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -21,13 +30,11 @@ export default function Login() {
     try {
       if (isLogin) {
         await login(phoneNumber, password)
-        navigate('/')
       } else {
         await register(phoneNumber, password, name || undefined)
-        navigate('/')
       }
     } catch (err: unknown) {
-      setError(err instanceof Error ? err.message : 'Ошибка авторизации')
+      setError(err instanceof Error ? err.message : t('login.error'))
     } finally {
       setLoading(false)
     }
@@ -36,8 +43,10 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-card">
+        <LanguageSwitcher />
+
         <div className="login-header">
-          <h1>{isLogin ? 'Вход' : 'Регистрация'}</h1>
+          <h1>{isLogin ? t('login.title') : t('login.register_title')}</h1>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">
@@ -45,7 +54,7 @@ export default function Login() {
             <div className="form-group">
               <input
                 type="text"
-                placeholder="Имя (необязательно)"
+                placeholder={t('login.name_placeholder')}
                 value={name}
                 onChange={(e) => setName(e.target.value)}
                 className="form-input"
@@ -56,7 +65,7 @@ export default function Login() {
           <div className="form-group">
             <input
               type="tel"
-              placeholder="Номер телефона *"
+              placeholder={t('login.phone_placeholder')}
               value={phoneNumber}
               onChange={(e) => setPhoneNumber(e.target.value)}
               required
@@ -67,7 +76,7 @@ export default function Login() {
           <div className="form-group">
             <input
               type="password"
-              placeholder="Пароль *"
+              placeholder={t('login.password_placeholder')}
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
@@ -83,7 +92,7 @@ export default function Login() {
             className="primary login-button"
             disabled={loading}
           >
-            {loading ? 'Загрузка...' : isLogin ? 'Войти' : 'Зарегистрироваться'}
+            {loading ? t('login.loading') : isLogin ? t('login.login_button') : t('login.register_button')}
           </button>
         </form>
 
@@ -97,8 +106,8 @@ export default function Login() {
             }}
           >
             {isLogin
-              ? 'Нет аккаунта? Зарегистрироваться'
-              : 'Уже есть аккаунт? Войти'}
+              ? t('login.no_account')
+              : t('login.have_account')}
           </button>
         </div>
       </div>
