@@ -13,7 +13,7 @@ interface AuthContextType {
   isAuthenticated: boolean
   isLoading: boolean
   login: (phoneNumber: string, password: string) => Promise<void>
-  register: (email: string, password: string, name?: string) => Promise<void>
+  register: (phoneNumber: string, password: string, name?: string) => Promise<void>
   logout: () => void
 }
 
@@ -47,12 +47,12 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     console.log('User set:', user)
   }
 
-  const register = async (email: string, password: string, name?: string) => {
+  const register = async (phoneNumber: string, password: string, name?: string) => {
     try {
-      const response: AuthResponse = await apiClient.register({ email, password, name })
+      const response: AuthResponse = await apiClient.register({ phoneNumber, password, name })
       localStorage.setItem('auth_token', response.token)
       // Если user не приходит с сервера, создаем временного
-      const user = response.user || { id: email, email: email, name: name }
+      const user = response.user || { id: phoneNumber, email: phoneNumber, name: name }
       setUser(user)
     } catch (error) {
       throw error

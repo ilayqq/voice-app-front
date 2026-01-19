@@ -15,7 +15,7 @@ i18n
       ru: { translation: ru },
       kk: { translation: kk }
     },
-    fallbackLng: 'ru',
+    fallbackLng: 'en',
     interpolation: {
       escapeValue: false
     },

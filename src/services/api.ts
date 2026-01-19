@@ -8,7 +8,7 @@ export interface LoginRequest {
 }
 
 export interface RegisterRequest {
-  email: string
+  phoneNumber: string
   password: string
   name?: string
 }
@@ -17,7 +17,7 @@ export interface AuthResponse {
   token: string
   user: {
     id: string
-    email: string
+    phoneNumber: string
     name?: string
   }
 }

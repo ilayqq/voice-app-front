@@ -1,11 +1,15 @@
 [data-theme="light"] {
-  --bg-color: #ffffff;
+  --bg-color: #d8d8d8;
   --text-color: #000000;
+  --login-card-bg: #ffffff;
+  --login-header: #333;
 }
 
 [data-theme="dark"] {
   --bg-color: #000000;
   --text-color: #ffffff;
+  --login-card-bg: #724C9D;
+  --login-header: #fff;
 }
 
 .login-container {
@@ -14,13 +18,13 @@
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  background: linear-gradient(170deg, var(--bg-color) 0%, #764ba2 100%);
 }
 
 .login-card {
   width: 100%;
   max-width: 400px;
-  background: #fff;
+  background: var(--login-card-bg);
   border-radius: 16px;
   padding: 32px;
   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
@@ -34,7 +38,7 @@
   margin: 0;
   font-size: 24px;
   font-weight: 600;
-  color: #333;
+  color: var(--login-header);
   text-align: center;
 }
 
