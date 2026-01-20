@@ -4,6 +4,8 @@ import { useAuth } from './context/AuthContext'
 import Login from './pages/Login'
 import { useEffect, useState } from 'react'
 import './i18n'
+import ProtectedRoute from "./components/ProtectedRoute.tsx";
+import Dashboard from "./pages/Dashboard.tsx";
 
 function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -32,19 +34,9 @@ function AppRoutes() {
       <Route
         path="/"
         element={
-          isAuthenticated ? (
-            <div style={{ padding: '20px' }}>
-              <h1>Dashboard (временная заглушка)</h1>
-              <button onClick={() => {
-                localStorage.removeItem('auth_token')
-                window.location.reload()
-              }}>
-                Выйти
-              </button>
-            </div>
-          ) : (
-            <Navigate to="/login" replace />
-          )
+          <ProtectedRoute>
+              <Dashboard />
+          </ProtectedRoute>
         }
       />
       <Route path="*" element={<Navigate to="/" replace />} />

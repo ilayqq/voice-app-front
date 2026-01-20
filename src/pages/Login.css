@@ -1,14 +1,14 @@
 [data-theme="light"] {
-  --bg-color: #d8d8d8;
+  --bg-color: #f9fafb;
   --text-color: #000000;
   --login-card-bg: #ffffff;
   --login-header: #333;
 }
 
 [data-theme="dark"] {
-  --bg-color: #000000;
-  --text-color: #ffffff;
-  --login-card-bg: #724C9D;
+  --bg-color: #0F172A;
+  --text-color: #F8FAFC;
+  --login-card-bg: #1E293B;
   --login-header: #fff;
 }
 
@@ -18,7 +18,7 @@
   align-items: center;
   justify-content: center;
   padding: 16px;
-  background: linear-gradient(170deg, var(--bg-color) 0%, #764ba2 100%);
+  background: var(--bg-color);
 }
 
 .login-card {
