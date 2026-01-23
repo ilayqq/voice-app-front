@@ -150,6 +150,27 @@ class ApiClient {
     })
     return this.handleResponse<Operation>(response)
   }
+
+  // Загрузка голоса
+  async uploadVoice(blob: Blob): Promise<{ text?: string }> {
+    const fd = new FormData();
+    fd.append("file", blob, "voice.wav");
+
+    const headers = this.getHeaders();
+    // Удаляем Content-Type, чтобы браузер сам установил boundary для FormData
+    if (headers instanceof Headers) {
+      headers.delete('Content-Type');
+    } else if (typeof headers === 'object' && 'Content-Type' in headers) {
+      delete (headers as Record<string, string>)['Content-Type'];
+    }
+
+    const response = await fetch(`${this.baseURL}api/v1/voice/upload`, {
+      method: 'POST',
+      headers: headers,
+      body: fd,
+    });
+    return this.handleResponse(response);
+  }
 }
 
 export const apiClient = new ApiClient()

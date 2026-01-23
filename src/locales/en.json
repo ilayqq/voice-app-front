@@ -11,5 +11,12 @@
     "no_account": "No account? Register",
     "have_account": "Already have an account? Login",
     "error": "Authorization error"
+  },
+  "nav": {
+    "warehouse": "Warehouse",
+    "products": "Products",
+    "incoming": "Incoming",
+    "outgoing": "Outgoing",
+    "profile": "Profile"
   }
 }

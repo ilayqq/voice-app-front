@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import './i18n'
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
+import Profile from "./pages/Profile.tsx";
 
 function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -39,6 +40,14 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+        <Route
+            path="/profile"
+            element={
+                <ProtectedRoute>
+                    <Profile />
+                </ProtectedRoute>
+            }
+        />
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
   )

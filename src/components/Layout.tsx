@@ -1,5 +1,8 @@
 import { Link, useLocation } from 'react-router-dom'
 import './Layout.css'
+import {useTranslation} from "react-i18next";
+import WarehouseIcon from '../assets/warehouseIcon.png'
+import ProfileIcon from '../assets/profileIcon.png'
 
 type Props = {
     title: string
@@ -8,6 +11,7 @@ type Props = {
 }
 
 export default function Layout({ title, children, showBack = false }: Props) {
+    const { t } = useTranslation()
     const location = useLocation()
     const currentPath = location.pathname
 
@@ -26,24 +30,24 @@ export default function Layout({ title, children, showBack = false }: Props) {
 
             <nav className="bottom-nav">
                 <Link to="/" className={`nav-item ${currentPath === '/' ? 'active' : ''}`}>
-                    <span className="nav-icon">📊</span>
-                    <span>Склад</span>
+                    <span className="nav-icon"><img src={WarehouseIcon} alt={"warehouse icon"}/></span>
+                    <span>{t('nav.warehouse')}</span>
                 </Link>
                 <Link to="/products" className={`nav-item ${currentPath === '/products' ? 'active' : ''}`}>
-                    <span className="nav-icon">📦</span>
-                    <span>Товары</span>
+                    <span className="nav-icon"></span>
+                    <span>{t('nav.products')}</span>
                 </Link>
                 <Link to="/incoming" className={`nav-item ${currentPath === '/incoming' ? 'active' : ''}`}>
-                    <span className="nav-icon">⬇️</span>
-                    <span>Приход</span>
+                    <span className="nav-icon"></span>
+                    <span>{t('nav.incoming')}</span>
                 </Link>
                 <Link to="/outgoing" className={`nav-item ${currentPath === '/outgoing' ? 'active' : ''}`}>
-                    <span className="nav-icon">⬆️</span>
-                    <span>Расход</span>
+                    <span className="nav-icon"></span>
+                    <span>{t('nav.outgoing')}</span>
                 </Link>
                 <Link to="/profile" className={`nav-item ${currentPath === '/profile' ? 'active' : ''}`}>
-                    <span className="nav-icon">👤</span>
-                    <span>Профиль</span>
+                    <span className="nav-icon"><img src={ProfileIcon} alt={"profile icon"}/></span>
+                    <span>{t("nav.profile")}</span>
                 </Link>
             </nav>
         </div>

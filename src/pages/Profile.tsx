@@ -1,7 +1,7 @@
 import Layout from '../components/Layout'
 import { useAuth } from '../context/AuthContext'
-import API_CONFIG from '../config/api'
 import './Profile.css'
+import LanguageSwitcher from "../components/LanguageSwitcher.tsx";
 
 export default function Profile() {
     const { user, logout } = useAuth()
@@ -26,12 +26,14 @@ export default function Profile() {
                     <div className="settings-list">
                         <div className="setting-item">
                             <div className="setting-info">
-                                <div className="setting-label">Backend API URL</div>
-                                <div className="setting-value">{API_CONFIG.getBaseURL()}</div>
+                                <div className="setting-label">Settings label</div>
+                                <div className="setting-value">Settings value</div>
                             </div>
                         </div>
                     </div>
                 </div>
+
+                <LanguageSwitcher/>
 
                 <button className="primary logout-button" onClick={handleLogout}>
                     Выйти

@@ -1,11 +1,11 @@
 [data-theme="light"] {
-  --bg-color: #ffffff;
+  /*--bg-color: #ffffff;*/
   --text-color: #000000;
 }
 
 [data-theme="dark"] {
   --bg-color: #000000;
-  --text-color: #ffffff;
+  /*--text-color: #ffffff;*/
 }
 
 body {
@@ -126,6 +126,44 @@ body {
   padding: 6px 12px;
   border-radius: 8px;
   font-weight: 500;
+}
+
+.voice-recorder-btn {
+  background: #007aff;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 64px;
+  height: 64px;
+  font-size: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(0, 122, 255, 0.3);
+  transition: all 0.2s;
+  margin: 20px auto;
+}
+
+.voice-recorder-btn:active {
+  transform: scale(0.95);
+}
+
+.voice-recorder-btn.recording {
+  background: #ff3b30;
+  animation: pulse 1.5s infinite;
+  box-shadow: 0 4px 12px rgba(255, 59, 48, 0.4);
+}
+
+.voice-recorder-btn:disabled {
+  background: #ccc;
+  cursor: not-allowed;
+}
+
+@keyframes pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
 }
 
 .quantity-badge.low {

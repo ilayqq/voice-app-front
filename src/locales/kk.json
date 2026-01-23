@@ -11,5 +11,12 @@
     "no_account": "Аккаунт жоқ па? Тіркелу",
     "have_account": "Аккаунт бар ма? Кіру",
     "error": "Авторизация қатесі"
+  },
+  "nav": {
+    "warehouse": "",
+    "products": "",
+    "incoming": "",
+    "outgoing": "",
+    "profile": ""
   }
 }

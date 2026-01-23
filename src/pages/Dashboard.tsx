@@ -3,6 +3,7 @@ import Layout from '../components/Layout'
 import { useLocalStorage } from '../hooks/useLocalStorage'
 import type { Product, InventoryItem, Operation, ProductWithInventory } from '../types'
 import './Dashboard.css'
+import VoiceRecorder from "../components/VoiceRecorder.tsx";
 
 export default function Dashboard() {
     const [products] = useLocalStorage<Product[]>('products', [])
@@ -32,13 +33,16 @@ export default function Dashboard() {
     return (
         <Layout title="Склад">
             <div className="dashboard">
+
+                <VoiceRecorder />
+
                 <div className="stats-grid">
                     <div className="stat-card">
                         <div className="stat-value">{totalProducts}</div>
                         <div className="stat-label">Товаров</div>
                     </div>
                     <div className="stat-card">
-                        <div className="stat-value">{totalValue.toLocaleString()} ₽</div>
+                        <div className="stat-value">{totalValue.toLocaleString()} tg</div>
                         <div className="stat-label">Оборот</div>
                     </div>
                     <div className="stat-card">
@@ -53,13 +57,13 @@ export default function Dashboard() {
 
                 <div className="quick-actions">
                     <Link to="/incoming" className="action-button incoming">
-                        ⬇️ Приход товара
+                        Приход товара
                     </Link>
                     <Link to="/outgoing" className="action-button outgoing">
-                        ⬆️ Расход товара
+                        Расход товара
                     </Link>
                     <Link to="/products" className="action-button">
-                        ➕ Новый товар
+                        Новый товар
                     </Link>
                 </div>
 

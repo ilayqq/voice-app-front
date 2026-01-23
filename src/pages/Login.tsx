@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import LanguageSwitcher from '../components/LanguageSwitcher'
 import './Login.css'
 
 export default function Login() {
@@ -43,7 +42,6 @@ export default function Login() {
   return (
     <div className="login-container">
       <div className="login-card">
-        {/*<LanguageSwitcher />*/}
 
         <div className="login-header">
           <h1>{isLogin ? t('login.title') : t('login.register_title')}</h1>
