@@ -1,11 +1,9 @@
 [data-theme="light"] {
-  /*--bg-color: #ffffff;*/
-  --text-color: #000000;
+  --dashboard-stat-card-bg: #ffffff;
 }
 
 [data-theme="dark"] {
-  --bg-color: #000000;
-  /*--text-color: #ffffff;*/
+  --dashboard-stat-card-bg: #1e293b;
 }
 
 body {
@@ -26,7 +24,7 @@ body {
 }
 
 .stat-card {
-  background: #fff;
+  background: var(--dashboard-stat-card-bg);
   border-radius: 12px;
   padding: 16px;
   text-align: center;
@@ -35,7 +33,7 @@ body {
 .stat-value {
   font-size: 24px;
   font-weight: bold;
-  color: #007aff;
+  color: #a78bfa;
   margin-bottom: 4px;
 }
 
@@ -46,16 +44,17 @@ body {
 
 .quick-actions {
   display: flex;
-  flex-direction: column;
+  /*flex-direction: column;*/
+  justify-content: center;
   gap: 12px;
 }
 
 .action-button {
-  background: #fff;
+  background: var(--dashboard-stat-card-bg);
   border-radius: 12px;
   padding: 16px;
   text-decoration: none;
-  color: #000;
+  color: var(--text-color);
   text-align: center;
   font-size: 16px;
   border: 2px solid #e5e5e5;
@@ -96,7 +95,7 @@ body {
 }
 
 .inventory-item {
-  background: #fff;
+  background: var(--dashboard-stat-card-bg);
   border-radius: 12px;
   padding: 16px;
   display: flex;
@@ -226,11 +225,11 @@ body {
 }
 
 .empty-state {
-  background: #fff;
+  background: var(--dashboard-stat-card-bg);
   border-radius: 12px;
   padding: 32px;
   text-align: center;
-  color: #666;
+  color: var(--text-color);
 }
 
 .empty-state .primary {

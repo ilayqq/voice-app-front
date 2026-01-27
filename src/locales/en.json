@@ -18,5 +18,9 @@
     "incoming": "Incoming",
     "outgoing": "Outgoing",
     "profile": "Profile"
+  },
+  "dashboard": {
+    "title": "Warehouse",
+    "products": "Products"
   }
 }

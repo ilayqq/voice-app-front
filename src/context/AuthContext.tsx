@@ -1,10 +1,10 @@
-import { createContext, useContext, useState, useEffect, ReactNode } from 'react'
+import {createContext, useContext, useState, useEffect, type ReactNode} from 'react'
 import { apiClient } from '../services/api'
 import type { AuthResponse } from '../services/api'
 
 interface User {
   id: string
-  email: string
+  phoneNumber: string
   name?: string
 }
 
@@ -27,8 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkAuth = async () => {
       const token = localStorage.getItem('auth_token')
       if (token) {
-        // Если токен есть, считаем пользователя авторизованным
-        setUser({ id: 'temp', email: 'temp' })
+        setUser({ id: 'temp', phoneNumber: 'temp' })
       }
       setIsLoading(false)
     }
@@ -38,20 +37,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const login = async (phoneNumber: string, password: string) => {
     const response: AuthResponse = await apiClient.login({ phoneNumber, password })
-    console.log('Login response:', response)
     localStorage.setItem('auth_token', response.token)
-    console.log('Token saved to localStorage')
-    // Если user не приходит с сервера, создаем временного
     const user = response.user || { id: phoneNumber, email: phoneNumber, name: phoneNumber }
     setUser(user)
-    console.log('User set:', user)
   }
 
   const register = async (phoneNumber: string, password: string, name?: string) => {
     try {
       const response: AuthResponse = await apiClient.register({ phoneNumber, password, name })
       localStorage.setItem('auth_token', response.token)
-      // Если user не приходит с сервера, создаем временного
       const user = response.user || { id: phoneNumber, email: phoneNumber, name: name }
       setUser(user)
     } catch (error) {

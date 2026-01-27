@@ -18,5 +18,9 @@
     "incoming": "Приход",
     "outgoing": "Расход",
     "profile": "Профиль"
+  },
+  "dashboard": {
+    "title": "Склад",
+    "products": "Товаров"
   }
 }

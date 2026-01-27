@@ -1,14 +1,25 @@
 import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
-import { useLocalStorage } from '../hooks/useLocalStorage'
 import type { Product, InventoryItem, Operation, ProductWithInventory } from '../types'
 import './Dashboard.css'
 import VoiceRecorder from "../components/VoiceRecorder.tsx";
+import {useTranslation} from "react-i18next";
+import {useEffect, useState} from "react";
+import apiClient from "../services/api.ts";
 
 export default function Dashboard() {
-    const [products] = useLocalStorage<Product[]>('products', [])
-    const [inventory] = useLocalStorage<InventoryItem[]>('inventory', [])
-    const [operations] = useLocalStorage<Operation[]>('operations', [])
+    const { t } = useTranslation();
+    const [products, setProducts] = useState<Product[]>([])
+    const [inventory, setInventory] = useState<InventoryItem[]>([])
+    const [operations, setOperations] = useState<Operation[]>([])
+
+    useEffect(() => {
+        apiClient.getProducts().then(data => {
+            setProducts(data)
+        })
+            // setInventory(data.inventory)
+            // setOperations(data.operations)
+    }, [])
 
     const productsWithInventory: ProductWithInventory[] = products.map(product => {
         const inv = inventory.find(i => i.productId === product.id)
@@ -31,7 +42,7 @@ export default function Dashboard() {
     const recentOperations = operations.slice(-5).reverse()
 
     return (
-        <Layout title="Склад">
+        <Layout title={t("dashboard.title")}>
             <div className="dashboard">
 
                 <VoiceRecorder />
@@ -39,10 +50,10 @@ export default function Dashboard() {
                 <div className="stats-grid">
                     <div className="stat-card">
                         <div className="stat-value">{totalProducts}</div>
-                        <div className="stat-label">Товаров</div>
+                        <div className="stat-label">{t("dashboard.products")}</div>
                     </div>
                     <div className="stat-card">
-                        <div className="stat-value">{totalValue.toLocaleString()} tg</div>
+                        <div className="stat-value">{totalValue.toLocaleString()} ₸</div>
                         <div className="stat-label">Оборот</div>
                     </div>
                     <div className="stat-card">
@@ -80,11 +91,11 @@ export default function Dashboard() {
                                 <Link key={item.id} to={`/products`} className="inventory-item">
                                     <div className="item-info">
                                         <div className="item-name">{item.name}</div>
-                                        <div className="item-sku">{item.sku}</div>
+                                        <div className="item-sku">{item.barcode}</div>
                                     </div>
                                     <div className="item-quantity">
                                         <div className={`quantity-badge ${item.available < 10 ? 'low' : ''}`}>
-                                            {item.available} {item.unit}
+                                            {/*{item.available} {item.unit}*/}
                                         </div>
                                     </div>
                                 </Link>
@@ -105,14 +116,14 @@ export default function Dashboard() {
                     ) : (
                         <div className="operations-list">
                             {recentOperations.map(op => {
-                                const product = products.find(p => p.id === op.productId)
+                                // const product = products.find(p => p.id === op.productId)
                                 return (
                                     <div key={op.id} className={`operation-item ${op.type}`}>
                                         <div className="operation-icon">
                                             {op.type === 'incoming' ? '⬇️' : '⬆️'}
                                         </div>
                                         <div className="operation-info">
-                                            <div className="operation-product">{product?.name || 'Неизвестно'}</div>
+                                            {/*<div className="operation-product">{product?.name || 'Неизвестно'}</div>*/}
                                             <div className="operation-meta">
                                                 {new Date(op.date).toLocaleDateString('ru-RU')}
                                             </div>

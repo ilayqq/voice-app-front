@@ -1,21 +1,27 @@
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import Layout from '../components/Layout'
-import { useLocalStorage } from '../hooks/useLocalStorage'
 import type { Product } from '../types'
 import './Products.css'
+import apiClient from "../services/api.ts";
 
 export default function Products() {
-    const [products, setProducts] = useLocalStorage<Product[]>('products', [])
+    const [products, setProducts] = useState<Product[]>([])
     const [searchTerm, setSearchTerm] = useState('')
     const [showForm, setShowForm] = useState(false)
     const [editingProduct, setEditingProduct] = useState<Product | null>(null)
 
+    useEffect(() => {
+        apiClient.getProducts().then(data => {
+            setProducts(data)
+        })
+    }, [])
+
     const filteredProducts = products.filter(p =>
         p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        p.sku.toLowerCase().includes(searchTerm.toLowerCase())
+        p.barcode.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    const handleDelete = (id: string) => {
+    const handleDelete = (id: number) => {
         if (confirm('Удалить товар?')) {
             setProducts(products.filter(p => p.id !== id))
         }
@@ -46,11 +52,12 @@ export default function Products() {
                 {showForm && (
                     <ProductForm
                         product={editingProduct}
-                        onSave={(product) => {
+                        onSave={async (product) => {
                             if (editingProduct) {
                                 setProducts(products.map(p => p.id === product.id ? product : p))
                             } else {
-                                setProducts([...products, product])
+                                const created = await apiClient.createProduct(product)
+                                setProducts(prev => [...prev, created])
                             }
                             setShowForm(false)
                             setEditingProduct(null)
@@ -74,11 +81,11 @@ export default function Products() {
                                     <div className="product-info">
                                         <div className="product-name">{product.name}</div>
                                         <div className="product-details">
-                                            <span>Артикул: {product.sku}</span>
+                                            <span>Артикул: {product.barcode}</span>
                                             <span>•</span>
                                             <span>{product.category}</span>
                                             <span>•</span>
-                                            <span>{product.price} ₽/{product.unit}</span>
+                                            <span>{product.price} ₸/{product.unit}</span>
                                         </div>
                                         {product.description && (
                                             <div className="product-description">{product.description}</div>
@@ -118,24 +125,25 @@ function ProductForm({ product, onSave, onCancel }: {
 }) {
     const [formData, setFormData] = useState({
         name: product?.name || '',
-        sku: product?.sku || '',
-        unit: product?.unit || 'шт',
+        barcode: product?.barcode || '',
+        // unit: product?.unit || 'шт',
         category: product?.category || '',
-        price: product?.price || 0,
+        // price: product?.price || 0,
         description: product?.description || ''
     })
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault()
-        if (!formData.name || !formData.sku) {
+        if (!formData.name || !formData.barcode) {
             alert('Заполните обязательные поля')
             return
         }
 
         onSave({
-            id: product?.id || Date.now().toString(),
-            ...formData,
-            createdAt: product?.createdAt || new Date().toISOString()
+            name: formData.name,
+            barcode: formData.barcode,
+            category: formData.category,
+            description: formData.description
         })
     }
 
@@ -151,29 +159,29 @@ function ProductForm({ product, onSave, onCancel }: {
             <input
                 type="text"
                 placeholder="Артикул *"
-                value={formData.sku}
-                onChange={(e) => setFormData({ ...formData, sku: e.target.value })}
+                value={formData.barcode}
+                onChange={(e) => setFormData({ ...formData, barcode: e.target.value })}
                 required
             />
-            <input
-                type="text"
-                placeholder="Единица измерения (шт, кг, л)"
-                value={formData.unit}
-                onChange={(e) => setFormData({ ...formData, unit: e.target.value })}
-            />
+            {/*<input*/}
+            {/*    type="text"*/}
+            {/*    placeholder="Единица измерения (шт, кг, л)"*/}
+            {/*    value={formData.unit}*/}
+            {/*    onChange={(e) => setFormData({ ...formData, unit: e.target.value })}*/}
+            {/*/>*/}
             <input
                 type="text"
                 placeholder="Категория"
                 value={formData.category}
                 onChange={(e) => setFormData({ ...formData, category: e.target.value })}
             />
-            <input
-                type="number"
-                placeholder="Цена"
-                value={formData.price}
-                onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}
-                step="0.01"
-            />
+            {/*<input*/}
+            {/*    type="number"*/}
+            {/*    placeholder="Цена"*/}
+            {/*    value={formData.price}*/}
+            {/*    onChange={(e) => setFormData({ ...formData, price: parseFloat(e.target.value) || 0 })}*/}
+            {/*    step="0.01"*/}
+            {/*/>*/}
             <textarea
                 placeholder="Описание"
                 value={formData.description}

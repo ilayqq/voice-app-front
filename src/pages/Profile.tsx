@@ -16,10 +16,10 @@ export default function Profile() {
         <Layout title="Профиль" showBack>
             <div className="profile">
                 <div className="avatar">
-                    {user?.name?.[0]?.toUpperCase() || user?.email?.[0]?.toUpperCase() || 'U'}
+                    {user?.name?.[0]?.toUpperCase() || user?.phoneNumber?.[0]?.toUpperCase() || 'U'}
                 </div>
-                <h2>{user?.name || user?.email || 'Пользователь'}</h2>
-                {user?.email && <div className="profile-email">{user.email}</div>}
+                <h2>{user?.name || user?.phoneNumber || 'Пользователь'}</h2>
+                {user?.phoneNumber && <div className="profile-email">{user.phoneNumber}</div>}
 
                 <div className="profile-section">
                     <h3 className="section-title">Информация</h3>

@@ -3,6 +3,7 @@ import './Layout.css'
 import {useTranslation} from "react-i18next";
 import WarehouseIcon from '../assets/warehouseIcon.png'
 import ProfileIcon from '../assets/profileIcon.png'
+import ProductIcon from '../assets/productIcon.png'
 
 type Props = {
     title: string
@@ -34,7 +35,7 @@ export default function Layout({ title, children, showBack = false }: Props) {
                     <span>{t('nav.warehouse')}</span>
                 </Link>
                 <Link to="/products" className={`nav-item ${currentPath === '/products' ? 'active' : ''}`}>
-                    <span className="nav-icon"></span>
+                    <span className="nav-icon"><img src={ProductIcon} alt={"product icon"}/></span>
                     <span>{t('nav.products')}</span>
                 </Link>
                 <Link to="/incoming" className={`nav-item ${currentPath === '/incoming' ? 'active' : ''}`}>

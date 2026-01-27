@@ -1,12 +1,12 @@
 export interface Product {
-  id: string
+  id?: number
   name: string
-  sku: string
-  unit: string
-  category: string
-  price: number
+  barcode: string
   description?: string
-  createdAt: string
+  category?: string
+  createdAt?: string
+  updatedAt?: string
+  // stocks: []
 }
 
 export interface InventoryItem {

@@ -55,7 +55,7 @@ class ApiClient {
 
   // Авторизация
   async login(data: LoginRequest): Promise<AuthResponse> {
-    const response = await fetch(`${this.baseURL}auth/login`, {
+    const response = await fetch(`${this.baseURL}/auth/login`, {
       method: 'POST',
       headers: this.getHeaders(false),
       body: JSON.stringify(data),
@@ -65,7 +65,7 @@ class ApiClient {
 
   // Регистрация
   async register(data: RegisterRequest): Promise<AuthResponse> {
-    const response = await fetch(`${this.baseURL}auth/register`, {
+    const response = await fetch(`${this.baseURL}/auth/register`, {
       method: 'POST',
       headers: this.getHeaders(false),
       body: JSON.stringify(data),
@@ -83,16 +83,16 @@ class ApiClient {
 
   // Товары
   async getProducts(): Promise<Product[]> {
-    const response = await fetch(`${this.baseURL}/products`, {
-      headers: this.getHeaders(),
+    const response = await fetch(`${this.baseURL}/api/v1/products`, {
+      headers: this.getHeaders(true),
     })
     return this.handleResponse<Product[]>(response)
   }
 
   async createProduct(product: Omit<Product, 'id' | 'createdAt'>): Promise<Product> {
-    const response = await fetch(`${this.baseURL}/products`, {
+    const response = await fetch(`${this.baseURL}/api/v1/products`, {
       method: 'POST',
-      headers: this.getHeaders(),
+      headers: this.getHeaders(true),
       body: JSON.stringify(product),
     })
     return this.handleResponse<Product>(response)
@@ -164,7 +164,7 @@ class ApiClient {
       delete (headers as Record<string, string>)['Content-Type'];
     }
 
-    const response = await fetch(`${this.baseURL}api/v1/voice/upload`, {
+    const response = await fetch(`${this.baseURL}/api/v1/voice/upload`, {
       method: 'POST',
       headers: headers,
       body: fd,

@@ -7,6 +7,7 @@ import './i18n'
 import ProtectedRoute from "./components/ProtectedRoute.tsx";
 import Dashboard from "./pages/Dashboard.tsx";
 import Profile from "./pages/Profile.tsx";
+import Products from "./pages/Products.tsx";
 
 function AppRoutes() {
   const { isAuthenticated, isLoading } = useAuth()
@@ -40,6 +41,14 @@ function AppRoutes() {
           </ProtectedRoute>
         }
       />
+        <Route
+            path="/products"
+            element={
+                <ProtectedRoute>
+                    <Products />
+                </ProtectedRoute>
+            }
+        />
         <Route
             path="/profile"
             element={
