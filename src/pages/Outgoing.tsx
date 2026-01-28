@@ -12,9 +12,8 @@ export default function Outgoing() {
     const [quantity, setQuantity] = useState('')
     const [notes, setNotes] = useState('')
 
-    const availableProducts = products.filter(p => {
-        const inv = inventory.find(i => i.productId === p.id)
-        return inv && inv.quantity > 0
+    const availableProducts = products.filter(() => {
+        return 0
     })
 
     const handleSubmit = (e: React.FormEvent) => {
@@ -67,10 +66,10 @@ export default function Outgoing() {
                     >
                         <option value="">Выберите товар</option>
                         {availableProducts.map(product => {
-                            const inv = inventory.find(i => i.productId === product.id)
+                            // const inv = inventory.find(i => i.productId === product.id)
                             return (
                                 <option key={product.id} value={product.id}>
-                                    {product.name} ({product.sku}) - Остаток: {inv?.quantity || 0} {product.unit}
+                                    {product.name} ({product.barcode}) - Остаток: {0}
                                 </option>
                             )
                         })}
@@ -78,11 +77,9 @@ export default function Outgoing() {
                 </label>
 
                 {selectedProductId && (() => {
-                    const product = products.find(p => p.id === selectedProductId)
-                    const inv = inventory.find(i => i.productId === selectedProductId)
                     return (
                         <div className="current-stock">
-                            Доступно: {inv?.quantity || 0} {product?.unit || 'шт'}
+                            {/*Доступно: {inv?.quantity || 0} {product?.unit || 'шт'}*/}
                         </div>
                     )
                 })()}
@@ -99,10 +96,10 @@ export default function Outgoing() {
                         placeholder="0"
                         className="form-input"
                     />
-                    {selectedProductId && (() => {
-                        const product = products.find(p => p.id === selectedProductId)
-                        return <div className="input-hint">Единица: {product?.unit || 'шт'}</div>
-                    })()}
+                    {/*{selectedProductId && (() => {*/}
+                    {/*    const product = products.find(p => p.id === selectedProductId)*/}
+                    {/*    return <div className="input-hint">Единица: {product?.unit || 'шт'}</div>*/}
+                    {/*})()}*/}
                 </label>
 
                 <label>

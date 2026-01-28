@@ -66,18 +66,18 @@ export default function Incoming() {
                         <option value="">Выберите товар</option>
                         {products.map(product => (
                             <option key={product.id} value={product.id}>
-                                {product.name} ({product.sku})
+                                {product.name} ({product.barcode})
                             </option>
                         ))}
                     </select>
                 </label>
 
                 {selectedProductId && (() => {
-                    const product = products.find(p => p.id === selectedProductId)
+                    // const product = products.find(p => p.id === selectedProductId)
                     const inv = inventory.find(i => i.productId === selectedProductId)
                     return (
                         <div className="current-stock">
-                            Текущий остаток: {inv?.quantity || 0} {product?.unit || 'шт'}
+                            Текущий остаток: {inv?.quantity || 0} {'шт'}
                         </div>
                     )
                 })()}
@@ -95,8 +95,8 @@ export default function Incoming() {
                         className="form-input"
                     />
                     {selectedProductId && (() => {
-                        const product = products.find(p => p.id === selectedProductId)
-                        return <div className="input-hint">Единица: {product?.unit || 'шт'}</div>
+                        // const product = products.find(p => p.id === selectedProductId)
+                        return <div className="input-hint">Единица: {'шт'}</div>
                     })()}
                 </label>
 

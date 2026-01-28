@@ -21,7 +21,7 @@ export default function Products() {
         p.barcode.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    const handleDelete = (id: number) => {
+    const handleDelete = (id: number | undefined) => {
         if (confirm('Удалить товар?')) {
             setProducts(products.filter(p => p.id !== id))
         }
@@ -85,7 +85,7 @@ export default function Products() {
                                             <span>•</span>
                                             <span>{product.category}</span>
                                             <span>•</span>
-                                            <span>{product.price} ₸/{product.unit}</span>
+                                            {/*<span>{product.price} ₸/{product.unit}</span>*/}
                                         </div>
                                         {product.description && (
                                             <div className="product-description">{product.description}</div>
