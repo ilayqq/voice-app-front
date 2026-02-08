@@ -1,6 +1,5 @@
 import { Link, useLocation } from 'react-router-dom'
-import './Layout.css'
-import {useTranslation} from "react-i18next";
+import { useTranslation } from 'react-i18next'
 import WarehouseIcon from '../assets/warehouseIcon.png'
 import ProfileIcon from '../assets/profileIcon.png'
 import ProductIcon from '../assets/productIcon.png'
@@ -17,40 +16,101 @@ export default function Layout({ title, children, showBack = false }: Props) {
     const currentPath = location.pathname
 
     return (
-        <div className="layout">
-            <header className="header">
-                {showBack && currentPath !== '/' && (
-                    <Link to="/" className="back-button">←</Link>
-                )}
-                <h1>{title}</h1>
+        <div className="min-h-screen bg-slate-950 text-white">
+
+            {/* HEADER */}
+            <header className="sticky top-0 z-20 backdrop-blur bg-white/5 ring-1 ring-white/10">
+                <div className="mx-auto max-w-6xl px-4 py-4 flex items-center justify-between">
+                    <div className="w-10">
+                        {showBack && currentPath !== '/' && (
+                            <Link
+                                to="/"
+                                className="text-xl font-semibold hover:text-indigo-400 transition"
+                            >
+                                ←
+                            </Link>
+                        )}
+                    </div>
+
+                    <h1 className="text-lg font-semibold text-center truncate">
+                        {title}
+                    </h1>
+
+                    <div className="w-10" />
+                </div>
             </header>
 
-            <main className="content">
+            {/* CONTENT */}
+            <main className="pb-24">
                 {children}
             </main>
 
-            <nav className="bottom-nav">
-                <Link to="/" className={`nav-item ${currentPath === '/' ? 'active' : ''}`}>
-                    <span className="nav-icon"><img src={WarehouseIcon} alt={"warehouse icon"}/></span>
-                    <span>{t('nav.warehouse')}</span>
-                </Link>
-                <Link to="/products" className={`nav-item ${currentPath === '/products' ? 'active' : ''}`}>
-                    <span className="nav-icon"><img src={ProductIcon} alt={"product icon"}/></span>
-                    <span>{t('nav.products')}</span>
-                </Link>
-                <Link to="/incoming" className={`nav-item ${currentPath === '/incoming' ? 'active' : ''}`}>
-                    <span className="nav-icon"></span>
-                    <span>{t('nav.incoming')}</span>
-                </Link>
-                <Link to="/outgoing" className={`nav-item ${currentPath === '/outgoing' ? 'active' : ''}`}>
-                    <span className="nav-icon"></span>
-                    <span>{t('nav.outgoing')}</span>
-                </Link>
-                <Link to="/profile" className={`nav-item ${currentPath === '/profile' ? 'active' : ''}`}>
-                    <span className="nav-icon"><img src={ProfileIcon} alt={"profile icon"}/></span>
-                    <span>{t("nav.profile")}</span>
-                </Link>
+            {/* BOTTOM NAV */}
+            <nav className="fixed inset-x-0 bottom-0 z-20 backdrop-blur bg-white/5 ring-1 ring-white/10">
+                <div className="mx-auto max-w-6xl grid grid-cols-5">
+                    <NavItem
+                        to="/"
+                        active={currentPath === '/'}
+                        label={t('nav.warehouse')}
+                        icon={WarehouseIcon}
+                    />
+                    <NavItem
+                        to="/products"
+                        active={currentPath === '/products'}
+                        label={t('nav.products')}
+                        icon={ProductIcon}
+                    />
+                    <NavItem
+                        to="/incoming"
+                        active={currentPath === '/incoming'}
+                        label={t('nav.incoming')}
+                    />
+                    <NavItem
+                        to="/outgoing"
+                        active={currentPath === '/outgoing'}
+                        label={t('nav.outgoing')}
+                    />
+                    <NavItem
+                        to="/profile"
+                        active={currentPath === '/profile'}
+                        label={t('nav.profile')}
+                        icon={ProfileIcon}
+                    />
+                </div>
             </nav>
         </div>
+    )
+}
+
+/* ---------- nav item ---------- */
+
+function NavItem({
+                     to,
+                     label,
+                     active,
+                     icon,
+                 }: {
+    to: string
+    label: string
+    active: boolean
+    icon?: string
+}) {
+    return (
+        <Link
+            to={to}
+            className={`flex flex-col items-center gap-1 py-3 text-xs transition
+        ${active
+                ? 'text-indigo-400'
+                : 'text-gray-400 hover:text-white'
+            }`}
+        >
+            <div
+                className={`h-6 w-6 flex items-center justify-center rounded-md
+          ${active ? 'bg-indigo-500/20' : ''}`}
+            >
+                {icon && <img src={icon} alt="" className="h-5 w-5" />}
+            </div>
+            <span>{label}</span>
+        </Link>
     )
 }

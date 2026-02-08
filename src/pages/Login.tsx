@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import './Login.css'
 
 export default function Login() {
   const { t } = useTranslation()
@@ -53,35 +52,73 @@ export default function Login() {
               className="relative left-[calc(50%-11rem)] aspect-1155/678 w-144.5 -translate-x-1/2 rotate-30 bg-linear-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-30rem)] sm:w-288.75"
           />
         </div>
-        <div className="mx-auto max-w-2xl py-32 sm:py-48 lg:py-56">
-          <div className="hidden sm:mb-8 sm:flex sm:justify-center">
-            <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-400 ring-1 ring-white/10 hover:ring-white/20">
-              Announcing our next round of funding.{' '}
-              <a href="#" className="font-semibold text-indigo-400">
-                <span aria-hidden="true" className="absolute inset-0" />
-                Read more <span aria-hidden="true">&rarr;</span>
-              </a>
-            </div>
-          </div>
+        <div className="mx-auto max-w-md px-4 py-16 sm:py-24 lg:py-32">
           <div className="text-center">
-            <h1 className="text-5xl font-semibold tracking-tight text-balance text-white sm:text-7xl">
+            <h1 className="text-5xl font-semibold text-white lg:text-7xl">
               Speak Stock
             </h1>
-            <p className="mt-8 text-lg font-medium text-pretty text-gray-400 sm:text-xl/8">
-              {/*Anim aute id magna aliqua ad ad non deserunt sunt. Qui irure qui lorem cupidatat commodo. Elit sunt amet*/}
-              {/*fugiat veniam occaecat.*/}
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <a
-                  href="#"
-                  className="rounded-md bg-indigo-500 px-3.5 py-2.5 text-sm font-semibold text-white shadow-xs hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
+            <form
+                onSubmit={handleSubmit}
+                className="mx-auto mt-8 w-full max-w-sm space-y-3 sm:space-y-4"
+            >
+              {!isLogin && (
+                  <input
+                      type="text"
+                      placeholder={t("login.name_placeholder")}
+                      value={name}
+                      onChange={(e) => setName(e.target.value)}
+                      className="w-full rounded-md bg-white/10 px-4 py-2 text-white placeholder-gray-400 outline-none ring-1 ring-white/20 focus:ring-indigo-500"
+                  />
+              )}
+
+              <input
+                  type="tel"
+                  placeholder={t("login.phone_placeholder") + " *"}
+                  value={phoneNumber}
+                  onChange={(e) => setPhoneNumber(e.target.value)}
+                  required
+                  className="w-full rounded-md bg-white/10 px-4 py-2 text-white placeholder-gray-400 outline-none ring-1 ring-white/20 focus:ring-indigo-500"
+              />
+
+              <input
+                  type="password"
+                  placeholder={t("login.password_placeholder") + " *"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  minLength={6}
+                  className="w-full rounded-md bg-white/10 px-4 py-2 text-white placeholder-gray-400 outline-none ring-1 ring-white/20 focus:ring-indigo-500"
+              />
+
+              {error && (
+                  <div className="text-sm text-red-400">
+                    {error}
+                  </div>
+              )}
+
+              <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full rounded-md bg-indigo-500 py-2 font-semibold text-white hover:bg-indigo-400 disabled:opacity-50"
               >
-                Sign in
-              </a>
-              <a href="#" className="text-sm/6 font-semibold text-white">
-                Sign out <span aria-hidden="true">→</span>
-              </a>
-            </div>
+                {loading
+                    ? t("login.loading")
+                    : isLogin
+                        ? t('login.login_button')
+                        : t('login.register_button')}
+              </button>
+
+              <button
+                  type="button"
+                  onClick={() => {
+                    setIsLogin(!isLogin)
+                    setError('')
+                  }}
+                  className="text-sm/6 font-semibold text-white"
+              >
+                {isLogin ? t('login.register_button') + " →" : t('login.login_button') + " →"}
+              </button>
+            </form>
           </div>
         </div>
         <div
@@ -97,75 +134,5 @@ export default function Login() {
           />
         </div>
       </div>
-    // <div className="login-container">
-    //   <div className="login-card">
-    //
-    //     <div className="login-header">
-    //       <h1>{isLogin ? t('login.title') : t('login.register_title')}</h1>
-    //     </div>
-    //
-    //     <form onSubmit={handleSubmit} className="login-form">
-    //       {!isLogin && (
-    //         <div className="form-group">
-    //           <input
-    //             type="text"
-    //             placeholder={t('login.name_placeholder')}
-    //             value={name}
-    //             onChange={(e) => setName(e.target.value)}
-    //             className="form-input"
-    //           />
-    //         </div>
-    //       )}
-    //
-    //       <div className="form-group">
-    //         <input
-    //           type="tel"
-    //           placeholder={t('login.phone_placeholder')}
-    //           value={phoneNumber}
-    //           onChange={(e) => setPhoneNumber(e.target.value)}
-    //           required
-    //           className="form-input"
-    //         />
-    //       </div>
-    //
-    //       <div className="form-group">
-    //         <input
-    //           type="password"
-    //           placeholder={t('login.password_placeholder')}
-    //           value={password}
-    //           onChange={(e) => setPassword(e.target.value)}
-    //           required
-    //           minLength={6}
-    //           className="form-input"
-    //         />
-    //       </div>
-    //
-    //       {error && <div className="error-message">{error}</div>}
-    //
-    //       <button
-    //         type="submit"
-    //         className="primary login-button"
-    //         disabled={loading}
-    //       >
-    //         {loading ? t('login.loading') : isLogin ? t('login.login_button') : t('login.register_button')}
-    //       </button>
-    //     </form>
-    //
-    //     <div className="login-footer">
-    //       <button
-    //         type="button"
-    //         className="link-button"
-    //         onClick={() => {
-    //           setIsLogin(!isLogin)
-    //           setError('')
-    //         }}
-    //       >
-    //         {isLogin
-    //           ? t('login.no_account')
-    //           : t('login.have_account')}
-    //       </button>
-    //     </div>
-    //   </div>
-    // </div>
   )
 }
