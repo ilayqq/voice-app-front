@@ -1,11 +1,11 @@
 import { Link } from 'react-router-dom'
 import Layout from '../components/Layout'
 import type { Product } from '../types'
-import VoiceRecorder from '../components/VoiceRecorder'
+// import VoiceRecorder from '../components/VoiceRecorder'
 import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import apiClient from '../services/api'
-import { motion } from 'framer-motion'
+import { motion, type Variants} from 'framer-motion'
 
 export default function Dashboard() {
     const { t } = useTranslation()
@@ -108,7 +108,7 @@ export default function Dashboard() {
 
 /* ---------- animations ---------- */
 
-const pageVariants = {
+const pageVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
         opacity: 1,
@@ -116,12 +116,12 @@ const pageVariants = {
     },
 }
 
-const staggerVariants = {
+const staggerVariants: Variants = {
     hidden: {},
     visible: { transition: { staggerChildren: 0.1 } },
 }
 
-const itemVariants = {
+const itemVariants: Variants = {
     hidden: { opacity: 0, y: 16 },
     visible: {
         opacity: 1,
