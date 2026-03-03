@@ -1,4 +1,4 @@
-const DEFAULT_API_BASE_URL = 'http://sam.x64.kz:8080'
+const DEFAULT_API_BASE_URL = 'https://sam.x64.kz:8080'
 
 export const API_CONFIG = {
   get baseURL(): string {
