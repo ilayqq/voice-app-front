@@ -4,7 +4,7 @@ import type { AuthResponse } from '../services/api'
 
 interface User {
   id: string
-  phoneNumber: string
+  phone_number: string
   name?: string
 }
 
@@ -27,7 +27,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     const checkAuth = async () => {
       const token = localStorage.getItem('auth_token')
       if (token) {
-        setUser({ id: 'temp', phoneNumber: 'temp' })
+        setUser({ id: 'temp', phone_number: 'temp' })
       }
       setIsLoading(false)
     }
@@ -35,18 +35,18 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     checkAuth()
   }, [])
 
-  const login = async (phoneNumber: string, password: string) => {
-    const response: AuthResponse = await apiClient.login({ phoneNumber, password })
+  const login = async (phone_number: string, password: string) => {
+    const response: AuthResponse = await apiClient.login({ phone_number, password })
     localStorage.setItem('auth_token', response.token)
-    const user = response.user || { id: phoneNumber, email: phoneNumber, name: phoneNumber }
+    const user = response.user || { id: phone_number, email: phone_number, name: phone_number }
     setUser(user)
   }
 
-  const register = async (phoneNumber: string, password: string, name?: string) => {
+  const register = async (phone_number: string, password: string, name?: string) => {
     try {
-      const response: AuthResponse = await apiClient.register({ phoneNumber, password, name })
+      const response: AuthResponse = await apiClient.register({ phone_number, password, name })
       localStorage.setItem('auth_token', response.token)
-      const user = response.user || { id: phoneNumber, email: phoneNumber, name: name }
+      const user = response.user || { id: phone_number, email: phone_number, name: name }
       setUser(user)
     } catch (error) {
       throw error

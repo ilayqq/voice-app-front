@@ -6,6 +6,7 @@ import { useTranslation } from 'react-i18next'
 import { useEffect, useState } from 'react'
 import apiClient from '../services/api'
 import { motion, type Variants} from 'framer-motion'
+import ScannerFlow from "../components/ScannerFlow.tsx";
 
 export default function Dashboard() {
     const { t } = useTranslation()
@@ -45,6 +46,9 @@ export default function Dashboard() {
                     variants={pageVariants}
                     className="mx-auto max-w-6xl space-y-10"
                 >
+
+                    <ScannerFlow/>
+
                     {/* VOICE */}
                     {/*<motion.div*/}
                     {/*    variants={itemVariants}*/}

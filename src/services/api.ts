@@ -3,12 +3,12 @@ import type { Product, InventoryItem, Operation } from '../types'
 
 // Типы для авторизации
 export interface LoginRequest {
-  phoneNumber: string
+  phone_number: string
   password: string
 }
 
 export interface RegisterRequest {
-  phoneNumber: string
+  phone_number: string
   password: string
   name?: string
 }
@@ -17,7 +17,7 @@ export interface AuthResponse {
   token: string
   user: {
     id: string
-    phoneNumber: string
+    phone_number: string
     name?: string
   }
 }
@@ -87,6 +87,13 @@ class ApiClient {
       headers: this.getHeaders(true),
     })
     return this.handleResponse<Product[]>(response)
+  }
+
+  async getProductByBarcode(barcode: string): Promise<Product | null> {
+    const response = await fetch(`${this.baseURL}/api/v1/products/barcode/${barcode}`, {
+      headers: this.getHeaders(true),
+    })
+    return this.handleResponse<Product | null>(response)
   }
 
   async createProduct(product: Omit<Product, 'id' | 'createdAt'>): Promise<Product> {
