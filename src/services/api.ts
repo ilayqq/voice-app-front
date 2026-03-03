@@ -55,7 +55,7 @@ class ApiClient {
 
   // Авторизация
   async login(data: LoginRequest): Promise<AuthResponse> {
-    const response = await fetch(`${this.baseURL}/auth/login`, {
+    const response = await fetch(`${this.baseURL}/api/auth/login`, {
       method: 'POST',
       headers: this.getHeaders(false),
       body: JSON.stringify(data),
@@ -65,7 +65,7 @@ class ApiClient {
 
   // Регистрация
   async register(data: RegisterRequest): Promise<AuthResponse> {
-    const response = await fetch(`${this.baseURL}/auth/register`, {
+    const response = await fetch(`${this.baseURL}/api/auth/register`, {
       method: 'POST',
       headers: this.getHeaders(false),
       body: JSON.stringify(data),
