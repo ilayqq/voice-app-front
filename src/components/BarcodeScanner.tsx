@@ -23,6 +23,10 @@ export default function BarcodeScanner({
                     (decodedText) => {
                         stopScanner()
                         onScan(decodedText)
+                    },
+                    (errorMessage) => {
+                        // можно просто игнорировать
+                        console.log("scan error", errorMessage)
                     }
                 )
                 isRunningRef.current = true

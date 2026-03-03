@@ -69,6 +69,11 @@ export default function ScannerFlow() {
                     <h3 className="text-lg font-semibold">
                         {foundProduct.name}
                     </h3>
+                    {barcode && (
+                        <p className="text-gray-400">
+                            Отсканировано: {barcode}
+                        </p>
+                    )}
                     <p className="text-gray-300">
                         Штрихкод: {foundProduct.barcode}
                     </p>
