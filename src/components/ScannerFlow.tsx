@@ -11,6 +11,7 @@ export default function ScannerFlow() {
     const [notFound, setNotFound] = useState(false)
 
     const handleScan = async (code: string) => {
+        // alert("Barcode scanned: " + code)
         setBarcode(code)
         setScanning(false)
 
@@ -31,13 +32,27 @@ export default function ScannerFlow() {
     }
 
     const handleIncoming = async () => {
-        // await apiClient.createIncoming({
-        //     productId: foundProduct?.id,
-        //     quantity: qty,
-        // })
+        if (!foundProduct) return
+
+        await apiClient.createProduct({
+            name: foundProduct.name,
+            barcode: foundProduct.barcode,
+        })
 
         alert("Товар добавлен на склад")
         reset()
+    }
+
+    const handleCreateProduct = async () => {
+        if (!barcode) return
+
+        const created = await apiClient.createProduct({
+            name: "Новый товар",
+            barcode: barcode,
+        })
+
+        setFoundProduct(created)
+        setNotFound(false)
     }
 
     const reset = () => {
@@ -102,6 +117,7 @@ export default function ScannerFlow() {
 
                     <button
                         className="rounded-md bg-indigo-500 px-4 py-2"
+                        onClick={handleCreateProduct}
                     >
                         ➕ Создать новый товар
                     </button>

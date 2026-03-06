@@ -53,7 +53,7 @@ export default function BarcodeScanner({
         <div className="space-y-4">
             <div
                 id="reader"
-                className="w-full h-[350px] rounded-xl overflow-hidden"
+                className="w-full h-[450px] rounded-xl overflow-hidden"
             />
             <button
                 onClick={onClose}

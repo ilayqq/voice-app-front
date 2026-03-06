@@ -90,13 +90,13 @@ class ApiClient {
   }
 
   async getProductByBarcode(barcode: string): Promise<Product | null> {
-    const response = await fetch(`${this.baseURL}/api/v1/products/barcode/${barcode}`, {
+    const response = await fetch(`${this.baseURL}/api/v1/products/?barcode=${barcode}`, {
       headers: this.getHeaders(true),
     })
     return this.handleResponse<Product | null>(response)
   }
 
-  async createProduct(product: Omit<Product, 'id' | 'createdAt'>): Promise<Product> {
+  async createProduct(product: Product): Promise<Product> {
     const response = await fetch(`${this.baseURL}/api/v1/products`, {
       method: 'POST',
       headers: this.getHeaders(true),
