@@ -20,8 +20,9 @@ export default function Products() {
         p.barcode.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    const handleDelete = (id?: number) => {
+    const handleDelete = (id: number | undefined) => {
         if (confirm('Удалить товар?')) {
+            apiClient.deleteProduct(id)
             setProducts(prev => prev.filter(p => p.id !== id))
         }
     }

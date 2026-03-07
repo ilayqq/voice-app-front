@@ -28,6 +28,10 @@ class ApiClient {
     return API_CONFIG.getBaseURL()
   }
 
+  private get apiURL(): string {
+    return API_CONFIG.getauthBaseURL()
+  }
+
   // Получить заголовки с токеном
   private getHeaders(includeAuth = true): HeadersInit {
     const headers: HeadersInit = {
@@ -55,7 +59,7 @@ class ApiClient {
 
   // Авторизация
   async login(data: LoginRequest): Promise<AuthResponse> {
-    const response = await fetch(`${this.baseURL}/api/auth/login`, {
+    const response = await fetch(`${this.apiURL}/auth/login`, {
       method: 'POST',
       headers: this.getHeaders(false),
       body: JSON.stringify(data),
@@ -65,7 +69,7 @@ class ApiClient {
 
   // Регистрация
   async register(data: RegisterRequest): Promise<AuthResponse> {
-    const response = await fetch(`${this.baseURL}/api/auth/register`, {
+    const response = await fetch(`${this.apiURL}/auth/register`, {
       method: 'POST',
       headers: this.getHeaders(false),
       body: JSON.stringify(data),
@@ -83,21 +87,21 @@ class ApiClient {
 
   // Товары
   async getProducts(): Promise<Product[]> {
-    const response = await fetch(`${this.baseURL}/api/v1/products`, {
+    const response = await fetch(`${this.baseURL}/products`, {
       headers: this.getHeaders(true),
     })
     return this.handleResponse<Product[]>(response)
   }
 
   async getProductByBarcode(barcode: string): Promise<Product | null> {
-    const response = await fetch(`${this.baseURL}/api/v1/products/?barcode=${barcode}`, {
+    const response = await fetch(`${this.baseURL}/products?barcode=${barcode}`, {
       headers: this.getHeaders(true),
     })
     return this.handleResponse<Product | null>(response)
   }
 
   async createProduct(product: Product): Promise<Product> {
-    const response = await fetch(`${this.baseURL}/api/v1/products`, {
+    const response = await fetch(`${this.baseURL}/products`, {
       method: 'POST',
       headers: this.getHeaders(true),
       body: JSON.stringify(product),
@@ -114,10 +118,10 @@ class ApiClient {
     return this.handleResponse<Product>(response)
   }
 
-  async deleteProduct(id: string): Promise<void> {
-    const response = await fetch(`${this.baseURL}/products/${id}`, {
+  async deleteProduct(id: number | undefined): Promise<void> {
+    const response = await fetch(`${this.baseURL}/products?barcode=${id}`, {
       method: 'DELETE',
-      headers: this.getHeaders(),
+      headers: this.getHeaders(true),
     })
     if (!response.ok) {
       throw new Error('Ошибка удаления товара')
