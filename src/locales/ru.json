@@ -22,5 +22,9 @@
   "dashboard": {
     "title": "Склад",
     "products": "Товаров"
+  },
+  "profile": {
+    "title": "Профиль",
+    "logout": "Выйти"
   }
 }

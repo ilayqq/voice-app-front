@@ -4,12 +4,14 @@ import type { Product } from '../types'
 import apiClient from '../services/api'
 import { motion, AnimatePresence, type Variants } from 'framer-motion'
 import ProductForm from "../components/ProductForm"
+import { useNavigate } from "react-router-dom"
 
 export default function Products() {
     const [products, setProducts] = useState<Product[]>([])
     const [searchTerm, setSearchTerm] = useState('')
     const [showForm, setShowForm] = useState(false)
     const [editingProduct, setEditingProduct] = useState<Product | null>(null)
+    const navigate = useNavigate()
 
     useEffect(() => {
         apiClient.getProducts().then(setProducts)
@@ -20,12 +22,12 @@ export default function Products() {
         p.barcode.toLowerCase().includes(searchTerm.toLowerCase())
     )
 
-    const handleDelete = (id: number | undefined) => {
-        if (confirm('Удалить товар?')) {
-            apiClient.deleteProduct(id)
-            setProducts(prev => prev.filter(p => p.id !== id))
-        }
-    }
+    // const handleDelete = (id: number | undefined) => {
+    //     if (confirm('Удалить товар?')) {
+    //         apiClient.deleteProduct(id)
+    //         setProducts(prev => prev.filter(p => p.id !== id))
+    //     }
+    // }
 
     return (
         <Layout title="Товары" showBack>
@@ -154,13 +156,10 @@ export default function Products() {
                                         <motion.div
                                             layout
                                             key={product.id}
-                                            variants={itemVariants}
-                                            initial="hidden"
-                                            animate="visible"
-                                            exit="exit"
                                             whileHover={{ scale: 1.03, y: -2 }}
                                             whileTap={{ scale: 0.98 }}
-                                            className="flex items-center justify-between gap-4
+                                            onClick={() => navigate(`/products/${product.barcode}`)}
+                                            className="cursor-pointer flex items-center justify-between
                                             rounded-2xl bg-white/10 backdrop-blur-md
                                             p-5 ring-1 ring-white/20
                                             hover:ring-indigo-400/50
@@ -175,45 +174,18 @@ export default function Products() {
 
                                                 <div className="text-sm text-gray-300">
                                                     📦 {product.barcode}
-                                                    {product.category && ` • ${product.category}`}
                                                 </div>
 
-                                                {product.description && (
-                                                    <div className="text-sm text-gray-400">
-                                                        {product.description}
+                                                {product.category && (
+                                                    <div className="text-xs text-gray-400">
+                                                        {product.category}
                                                     </div>
                                                 )}
 
                                             </div>
 
-
-                                            <div className="flex gap-2">
-
-                                                <motion.button
-                                                    whileHover={{ scale: 1.1 }}
-                                                    whileTap={{ scale: 0.9 }}
-                                                    onClick={() => {
-                                                        setEditingProduct(product)
-                                                        setShowForm(true)
-                                                    }}
-                                                    className="rounded-md bg-white/10 px-3 py-2
-                                                    ring-1 ring-white/20
-                                                    hover:bg-indigo-500/20 transition"
-                                                >
-                                                    ✏️
-                                                </motion.button>
-
-                                                <motion.button
-                                                    whileHover={{ scale: 1.1 }}
-                                                    whileTap={{ scale: 0.9 }}
-                                                    onClick={() => handleDelete(product.id)}
-                                                    className="rounded-md bg-red-500/20 px-3 py-2
-                                                    ring-1 ring-red-500/30
-                                                    hover:bg-red-500/40 transition"
-                                                >
-                                                    🗑️
-                                                </motion.button>
-
+                                            <div className="text-indigo-300">
+                                                →
                                             </div>
 
                                         </motion.div>

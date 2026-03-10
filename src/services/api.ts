@@ -29,7 +29,7 @@ class ApiClient {
   }
 
   private get apiURL(): string {
-    return API_CONFIG.getauthBaseURL()
+    return API_CONFIG.getAuthBaseURL()
   }
 
   // Получить заголовки с токеном
@@ -118,8 +118,8 @@ class ApiClient {
     return this.handleResponse<Product>(response)
   }
 
-  async deleteProduct(id: number | undefined): Promise<void> {
-    const response = await fetch(`${this.baseURL}/products?barcode=${id}`, {
+  async deleteProduct(barcode: string | undefined): Promise<void> {
+    const response = await fetch(`${this.baseURL}/products?barcode=${barcode}`, {
       method: 'DELETE',
       headers: this.getHeaders(true),
     })
