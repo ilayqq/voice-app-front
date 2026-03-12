@@ -4,6 +4,8 @@ export interface Product {
   barcode: string
   description?: string
   category?: string
+  imageUrl?: string      // URL картинки после загрузки
+  imageFile?: File       // временно для загрузки (не отправляем в JSON)
   createdAt?: string
   updatedAt?: string
   // stocks: []

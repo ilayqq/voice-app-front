@@ -1,7 +1,6 @@
 import API_CONFIG from '../config/api'
 import type { Product, InventoryItem, Operation } from '../types'
 
-// Типы для авторизации
 export interface LoginRequest {
   phone_number: string
   password: string
@@ -22,7 +21,11 @@ export interface AuthResponse {
   }
 }
 
-// API клиент
+export interface UpdateUserRequest {
+  full_name?: string
+  phone_number?: string
+}
+
 class ApiClient {
   private get baseURL(): string {
     return API_CONFIG.getBaseURL()
@@ -32,23 +35,19 @@ class ApiClient {
     return API_CONFIG.getAuthBaseURL()
   }
 
-  // Получить заголовки с токеном
   private getHeaders(includeAuth = true): HeadersInit {
     const headers: HeadersInit = {
       'Content-Type': 'application/json',
     }
-    
     if (includeAuth) {
       const token = localStorage.getItem('auth_token')
       if (token) {
         headers['Authorization'] = `Bearer ${token}`
       }
     }
-    
     return headers
   }
 
-  // Обработка ответа
   private async handleResponse<T>(response: Response): Promise<T> {
     if (!response.ok) {
       const error = await response.json().catch(() => ({ message: 'Ошибка сервера' }))
@@ -57,7 +56,6 @@ class ApiClient {
     return response.json()
   }
 
-  // Авторизация
   async login(data: LoginRequest): Promise<AuthResponse> {
     const response = await fetch(`${this.apiURL}/auth/login`, {
       method: 'POST',
@@ -67,7 +65,6 @@ class ApiClient {
     return this.handleResponse<AuthResponse>(response)
   }
 
-  // Регистрация
   async register(data: RegisterRequest): Promise<AuthResponse> {
     const response = await fetch(`${this.apiURL}/auth/register`, {
       method: 'POST',
@@ -77,15 +74,23 @@ class ApiClient {
     return this.handleResponse<AuthResponse>(response)
   }
 
-  // Получить текущего пользователя
-  // async getCurrentUser() {
-  //   const response = await fetch(`${this.baseURL}/auth/me`, {
-  //     headers: this.getHeaders(),
-  //   })
-  //   return this.handleResponse(response)
-  // }
+  async getUserByPhone(phone_number: string): Promise<AuthResponse['user']> {
+    const response = await fetch(`${this.apiURL}/users?phone_number=${encodeURIComponent(phone_number)}`, {
+      headers: this.getHeaders(),
+    })
+    return this.handleResponse<AuthResponse['user']>(response)
+  }
 
-  // Товары
+  // Обновить профиль (имя, телефон)
+  async updateUser(data: UpdateUserRequest): Promise<AuthResponse['user']> {
+    const response = await fetch(`${this.apiURL}/api/v1/users`, {
+      method: 'PATCH',
+      headers: this.getHeaders(),
+      body: JSON.stringify(data),
+    })
+    return this.handleResponse<AuthResponse['user']>(response)
+  }
+
   async getProducts(): Promise<Product[]> {
     const response = await fetch(`${this.baseURL}/products`, {
       headers: this.getHeaders(true),
@@ -110,8 +115,8 @@ class ApiClient {
   }
 
   async updateProduct(id: string, product: Partial<Product>): Promise<Product> {
-    const response = await fetch(`${this.baseURL}/products/${id}`, {
-      method: 'PUT',
+    const response = await fetch(`${this.baseURL}/products?barcode=${id}`, {
+      method: 'PATCH',
       headers: this.getHeaders(),
       body: JSON.stringify(product),
     })
@@ -128,7 +133,6 @@ class ApiClient {
     }
   }
 
-  // Склад
   async getInventory(): Promise<InventoryItem[]> {
     const response = await fetch(`${this.baseURL}/inventory`, {
       headers: this.getHeaders(),
@@ -145,7 +149,6 @@ class ApiClient {
     return this.handleResponse<InventoryItem[]>(response)
   }
 
-  // Операции
   async getOperations(): Promise<Operation[]> {
     const response = await fetch(`${this.baseURL}/operations`, {
       headers: this.getHeaders(),
@@ -162,28 +165,23 @@ class ApiClient {
     return this.handleResponse<Operation>(response)
   }
 
-  // Загрузка голоса
   async uploadVoice(blob: Blob): Promise<{ text?: string }> {
-    const fd = new FormData();
-    fd.append("file", blob, "voice.wav");
-
-    const headers = this.getHeaders();
-    // Удаляем Content-Type, чтобы браузер сам установил boundary для FormData
+    const fd = new FormData()
+    fd.append('file', blob, 'voice.wav')
+    const headers = this.getHeaders()
     if (headers instanceof Headers) {
-      headers.delete('Content-Type');
+      headers.delete('Content-Type')
     } else if (typeof headers === 'object' && 'Content-Type' in headers) {
-      delete (headers as Record<string, string>)['Content-Type'];
+      delete (headers as Record<string, string>)['Content-Type']
     }
-
     const response = await fetch(`${this.baseURL}/api/v1/voice/upload`, {
       method: 'POST',
       headers: headers,
       body: fd,
-    });
-    return this.handleResponse(response);
+    })
+    return this.handleResponse(response)
   }
 }
 
 export const apiClient = new ApiClient()
 export default apiClient
-
